@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XEM Vesting Calculator</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://use.fontawesome.com/6c45c347cb.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+</head>
+<style>
+    #title {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    #top-image {
+        display: block;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+        max-width: 150px
+    }
+    #description {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .input-group {
+        margin-bottom: 10px;
+
+    }
+
+    .footer{
+        bottom: 0;
+        width: 100%;
+        height: auto;
+        line-height: 22px;
+        background-color: #1d1e1f;
+
+    }
+    span {
+        color: white;
+    }
+    .adrs {
+        font-size: small;
+        color: white;
+
+    }
+    #estimateDate {
+        font-size: xx-large;
+        margin-right: 10px;
+
+    }
+    #estimateDay {
+        font-size: xx-large;
+    }
+
+
+</style>
+<body>
+    <nav class="navbar navbar-inverse bg-inverse">
+        <!-- Navbar content -->
+        <a class="navbar-brand" href="#">NEM TOOL</a>
+    </nav>
+    <div class="container">
+        <img
+            id="top-image"
+            sizes="(max-width: 480px) 100vw, 480px"
+            srcset="static/images/nem_irkhvy_c_scale,w_200.png 200w,
+                    static/images/nem_irkhvy_c_scale,w_480.png 480w"
+            src="static/images/nem_irkhvy_c_scale,w_480.png"
+
+            alt="nem">
+
+        <h1 id="title" align="center">XEM Vesting Calculator</h1>
+
+        <div id="description">
+            これからハーベストのためにXEMを購入予定だけどいくら買えばいいんだろう，買ったけどいつになったらハーベストできるんだろうっていう人のためのハーベストまでの日数計算アプリです．<br/>
+            <strong>Vested Balanceが10,000以上</strong>でハーベストが可能になります．ブロックの生成タイミングなどによって一日程度のずれが生じる可能性がありますので，あくまで目安としてお使いください．
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="address">XEMアドレス</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-address-book" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" id="address" placeholder="Address" oninput="fromAddress(this)">
+                </div>
+                <label for="vested">Vested balance</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-balance-scale" aria-hidden="true"></i></span>
+                    <input type="number" min="0" class="form-control" id="vested" placeholder="Amount" oninput="changedNum()">
+                </div>
+                <label for="balance">保有XEM</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                    <input type="number" min="0" class="form-control" id="balance" placeholder="Amount" oninput="changedNum()">
+                    <span class="input-group-addon">XEM</span>
+                </div>
+                <label for="buy">購入予定XEM</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                    <input type="number" min="0" class="form-control" id="buy" placeholder="Amount" oninput="changedNum()">
+                    <span class="input-group-addon">XEM</span>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+
+                <h4>ハーベスト解禁日</h4>
+                <div align="center"><strong id="estimateDate">xxxx/xx/xx</strong>残り<strong id="estimateDay">xx</strong> 日
+                </div>
+                <canvas id="myChart"></canvas>
+                <div class="progress" hidden="hidden">
+                    <div
+                        id="bar"
+                        aria-valuemin="0"
+                        aria-valuemax="10000"
+                        class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                        role="progressbar"
+                        style="width: 0%"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="github.com/genm"><span>Created by genm</span></a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="adrs">XEM: NAH3YZCQMVZJNDZLDBDDYYSNC36JWASHL2QDMCVU</div>
+                    <div class="adrs">BTC: 1EnJRZzT6KHNzPF7jtBcDbVCkffFidf7B4</div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <script type="application/javascript" src="js/chart.js"></script>
+    <script type="application/javascript" src="js/script.js"></script>
+</body>
+</html>
