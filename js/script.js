@@ -22,7 +22,7 @@ function fromAddress(address) {
     adrs = address.value.replace(/.-+/g, "");
     if(adrs.length == 40){
         $.ajax({
-            url: 'http://alice2.nem.ninja:7890/account/get?address='+adrs,
+            url: '//alice2.nem.ninja:7890/account/get?address='+adrs,
             type: 'GET',
             dataType: 'json',
             timeout: 5000
