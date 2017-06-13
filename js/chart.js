@@ -31,7 +31,7 @@ function inputDataToChart(transition, increment){
 
     var xCoordinate = [];
     for(var i=0;i<transition.length;i++){
-        xCoordinate.push(i);
+        xCoordinate.push(i+'日後');
     }
 
     myChart.data.labels = xCoordinate;

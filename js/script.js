@@ -29,14 +29,14 @@ function fromAddress(address) {
         })
         .then(
             function (data) {
-                console.log(data.account.balance + ' ' + data.account.vestedBalance);
+                //console.log(data.account.balance + ' ' + data.account.vestedBalance);
                 vested.value = insertDot(data.account.vestedBalance);
                 balance.value = insertDot(data.account.balance);
                 indicateParcentile();
                 calc();
             },
             function () {
-                console.log("error")
+                //console.log("error")
             }
         );
     }
@@ -82,8 +82,6 @@ function calc() {
 
     estimateDay.innerHTML = i>=3650 ? "∞" : i;
     estimateDate.innerHTML = i>=3650 ? "永遠に来ません" : showDate(i);
-    console.log(showDate(i));
-
 
     $('#myChart').data('transition', transition);
     if(estbal >= 10000){
@@ -106,5 +104,5 @@ function indicateParcentile(){
 }
 function getDay(n){
     var today = new Date();
-    console.log(today.toString());
+    //console.log(today.toString());
 }
