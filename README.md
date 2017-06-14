@@ -1,5 +1,5 @@
 # XEM Harvesting Calculator
-[XEM Harvesting Calculator](https://xem-tool.netlify.com/)
+[XEM Harvesting Calculator](http://xem-tool.netlify.com/)
 
 XEM買ったはいいけどいつになったらハーベスト出来るんや…という自分のために作りました
 
